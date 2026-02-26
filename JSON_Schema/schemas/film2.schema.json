@@ -10,6 +10,9 @@
     "year": {
       "type": "integer",
       "minimum": 1888},
+    "director": {
+      "type": "string"
+    },
     "directors": {
       "$ref": "#/$defs/personsArray"
     },
@@ -17,7 +20,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["Action", "Sci-Fi"]
+        "enum": ["Action", "Adventure", "Animation", "Anime", "Comedy", "Documentary", "Drama", "Family", "Fantasy", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "Western"]
       },
       "minItems": 1,
       "uniqueItems": true
@@ -44,6 +47,7 @@
     }
   },
   "required": ["title", "year", "duration"],
+  "not": { "required": ["director", "directors"] },
   "$defs":{
     "personsArray": {
       "type": "array",
