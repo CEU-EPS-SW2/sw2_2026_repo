@@ -1,0 +1,245 @@
+openapi: 3.1.0
+info:
+  title: Nuestra API para el cine
+  version: 0.1.0
+  description: Nuestra API para el cine
+paths:
+  /sesiones:
+    get:
+      summary: GET todas las sesiones
+      description: GET todas las sesiones
+      parameters:
+        - $ref: '#components/parameters/page'
+        - $ref: '#components/parameters/numElements'
+        - $ref: '#components/parameters/title'
+        - $ref: '#components/parameters/year'
+        - $ref: '#components/parameters/genre'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "422":
+          description: Parámetros incorrectos
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    post:
+      summary: POST nueva sesión
+      description: POST nueva sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ''
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "400":
+          description: Formato incorrecto
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "422":
+          description: Error en JSON
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    delete:
+      summary: DELETE todas las sesiones
+      description: DELETE todas las sesiones
+      responses:
+        "200"
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "403"
+  /sesiones/{id}:
+    parameters:
+      - $ref: "#/components/parameters/id"
+    get:
+      summary: GET una sesión concreta
+      description: GET una sesión concreta
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "404":
+          description: No existe la película con ese ID
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    put:
+      summary: Modificar una sesión concreta
+      description: Modificar una sesión concreta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ''
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "404":
+          description: No existe la película con ese ID
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "422":
+          description: JSON incorrecto
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    delete:
+      summary: Eliminar una sesión concreta
+      description: Eliminar una sesión concreta
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        "404":
+          description: No existe la película con ese ID
+          content:
+            application/json:
+              schema:
+                $ref: ''
+  /peliculas:
+    get:
+      summary: GET todas las sesiones
+      description: GET todas las sesiones
+      parameters:
+        - $ref: '#components/parameters/page'
+        - $ref: '#components/parameters/numElements'
+        - $ref: '#components/parameters/title'
+        - $ref: '#components/parameters/year'
+        - $ref: '#components/parameters/genre'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/arrayPeliculasMin'
+        "422":
+          description: Parámetros incorrectos
+          content:
+            application/json:
+              schema:
+                $ref: ''
+  /peliculas/{id}:
+    parameters:
+      - $ref: "#/components/parameters/id"
+    get:
+      summary: GET una película concreta
+      description: GET una película concreta
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pelicula'
+
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/id'
+      description: Id
+    page:
+      in: query
+      name: page
+      description: número de página
+      schema: 
+        type: integer
+        default: 1
+      required: false
+    numElements:
+      in: query
+      name: numElements
+      description: número de elementos de cada página
+      schema: 
+        type: integer
+        maximum: 50
+        default: 10
+      required: false
+    title:
+      in: query
+      name: title
+      description: título de la película
+      schema: 
+        $ref: '#/components/schemas/title'
+      required: false
+    year:
+      in: query
+      name: year
+      description: año de la película
+      schema: 
+        $ref: '#/components/schemas/year'
+      required: false
+    genre:
+      in: query
+      name: genre
+      description: género de la película
+      schema: 
+        $ref: '#/components/schemas/genre'
+      required: false
+  schemas:
+    id:
+      type: integer
+    title:
+      type: string
+    year:
+      type: integer
+      minimum: 1888
+    genre:
+      type: string
+      enum: ["Action", "Adventure", "Animation", "Anime", "Comedy", "Documentary", "Drama", "Family", "Fantasy", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "Western"]
+    arrayPeliculasMin:
+      type: array
+      items:
+        $ref: '#/components/schemas/peliculaMin'
+    peliculaMin:
+      type: object
+      required: [id, title, year, genre]
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        title:
+          $ref: '#/components/schemas/title'
+        year:
+          $ref: '#/components/schemas/year'
+        genre:
+          $ref: '#/components/schemas/genre'
+      additionalProperties: false
+    pelicula:
+      type: object
