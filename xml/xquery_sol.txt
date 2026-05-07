@@ -1,0 +1,33 @@
+1. Devuelve los títulos de todos los libros ordenados por precio de 
+mayor a menor
+
+for $b in doc("xquery_ejercicio1.xml")//book
+order by xs:float($b/price) descending
+return $b/title
+
+for $b in doc("xquery_ejercicio1.xml")//book
+order by xs:decimal($b/price) descending
+return $b/title
+
+for $b in doc("xquery_ejercicio1.xml")//book
+order by number($b/price) descending
+return $b/title
+
+2. ¿Cuántos libros ha escrito Abiteboul?
+
+let $bib := doc("xquery_ejercicio1.xml")
+return count($bib//book[author="Abiteboul"])
+
+count(doc("xquery_ejercicio1.xml")//book[author = 'Abiteboul'])
+
+3. Haz un XML que indique para cada autor, cuántos libros ha escrito
+<authors>{
+for $a in distinct-values(doc("xquery_ejercicio1.xml")//author)
+return <author>
+ <name>{$a}</name>
+ <count>
+ {count(doc("xquery_ejercicio1.xml")//book[author =$a]) }
+ </count>
+ </author>
+}
+</authors>
